@@ -6,6 +6,7 @@ const EmployeeForm = () => {
     useContext(EmployeeContext);
   const [employee, setEmployee] = useState({
     username: "",
+    password: "",
     email: "",
     gender: "",
     phone: "",
@@ -25,6 +26,7 @@ const EmployeeForm = () => {
   const clearForm = () => {
     setEmployee({
       username: "",
+      password: "",
       email: "",
       gender: "",
       phone: "",
@@ -56,6 +58,15 @@ const EmployeeForm = () => {
         value={employee.username}
         onChange={handleChange}
         placeholder="Username"
+        required
+      />
+
+      <input
+        type="password"
+        name="password"
+        value={employee.password}
+        onChange={handleChange}
+        placeholder="Password"
         required
       />
       <input
