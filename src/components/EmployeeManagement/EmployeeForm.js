@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect, useCallback } from "react";
 import { EmployeeContext } from "../../contexts/EmployeeContext";
 
 const EmployeeForm = () => {
@@ -14,16 +14,7 @@ const EmployeeForm = () => {
     profession: "",
   });
 
-  // If currentEmployee is not null, populate the form fields for update
-  useEffect(() => {
-    if (currentEmployee) {
-      setEmployee(currentEmployee);
-    } else {
-      clearForm();
-    }
-  }, [currentEmployee]);
-
-  const clearForm = () => {
+  const clearForm = useCallback(() => {
     setEmployee({
       username: "",
       password: "",
@@ -34,7 +25,16 @@ const EmployeeForm = () => {
       profession: "",
     });
     clearCurrentEmployee();
-  };
+  }, [clearCurrentEmployee]);
+
+  // If currentEmployee is not null, populate the form fields for update
+  useEffect(() => {
+    if (currentEmployee) {
+      setEmployee(currentEmployee);
+    } else {
+      clearForm();
+    }
+  }, [currentEmployee, clearForm]);
 
   const handleChange = (e) => {
     setEmployee({ ...employee, [e.target.name]: e.target.value });
