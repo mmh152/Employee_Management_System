@@ -67,6 +67,10 @@ const TaskProvider = ({ children }) => {
     [fetchTasks]
   );
 
+  const clearCurrentTask = () => {
+    setCurrentTask(null);
+  };
+
   return (
     <TaskContext.Provider
       value={{
@@ -80,6 +84,7 @@ const TaskProvider = ({ children }) => {
         updateTask,
         deleteTask,
         assignTask,
+        clearCurrentTask,
       }}
     >
       {children}
