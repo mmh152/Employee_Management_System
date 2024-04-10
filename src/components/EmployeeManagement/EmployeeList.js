@@ -33,7 +33,7 @@ const EmployeeList = () => {
                 <button onClick={() => startUpdateProcess(employee)}>
                   Update
                 </button>
-                <button onClick={() => deleteEmployee(employee.id)}>
+                <button onClick={() => deleteEmployee(employee.username)}>
                   Delete
                 </button>
               </td>

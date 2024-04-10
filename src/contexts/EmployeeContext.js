@@ -30,9 +30,9 @@ const EmployeeProvider = ({ children }) => {
     }
   };
 
-  const updateEmployee = async (username, employeeData) => {
+  const updateEmployee = async (employee) => {
     try {
-      await api.updateEmployee(username, employeeData);
+      await api.updateEmployee(employee.username, employee);
       fetchEmployees(); // Refresh the list after updating
     } catch (error) {
       console.error("Failed to update employee", error);
