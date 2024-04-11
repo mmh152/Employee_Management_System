@@ -1,8 +1,10 @@
+// App.js
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import LoginPage from "./pages/LoginPage";
 import EmployeeManagementPage from "./pages/EmployeeManagementPage";
 import TaskManagementPage from "./pages/TaskManagementPage";
+import SettingsPage from "./pages/SettingsPage";
 import EmployeePage from "./pages/EmployeePage"; // Placeholder for now
 import "./App.css";
 import EmployeeProvider from "./contexts/EmployeeContext";
@@ -20,6 +22,7 @@ const App = () => {
               element={<EmployeeManagementPage />}
             />
             <Route path="/taskmanagement" element={<TaskManagementPage />} />
+            <Route path="/settings" element={<SettingsPage />} />
             <Route path="/employee" element={<EmployeePage />} />{" "}
             {/* Placeholder for now */}
             {/* Redirect to login page if any other path is hit */}

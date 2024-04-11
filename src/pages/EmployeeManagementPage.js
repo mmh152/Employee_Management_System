@@ -1,8 +1,10 @@
+// EmployeeManagementPage.js
 import React, { useContext, useEffect } from "react";
 import EmployeeList from "../components/EmployeeManagement/EmployeeList";
 import EmployeeForm from "../components/EmployeeManagement/EmployeeForm";
 import AddEmployeeButton from "../components/EmployeeManagement/AddEmployeeButton";
 import { EmployeeContext } from "../contexts/EmployeeContext";
+import Navbar from "../components/common/Navbar";
 
 const EmployeeManagementPage = () => {
   const { isAddingEmployee, currentEmployee } = useContext(EmployeeContext);
@@ -14,6 +16,7 @@ const EmployeeManagementPage = () => {
 
   return (
     <div>
+      <Navbar />
       <h1>Employee Management</h1>
       <AddEmployeeButton />
       {(isAddingEmployee || currentEmployee) && <EmployeeForm />}
