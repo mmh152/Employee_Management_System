@@ -2,7 +2,12 @@ import React, { useContext } from "react";
 import { TaskContext } from "../../contexts/TaskContext";
 
 const TaskList = () => {
-  const { tasks, deleteTask, updateTask, assignTask } = useContext(TaskContext);
+  const { tasks, deleteTask, setCurrentTask, assignTask } =
+    useContext(TaskContext);
+
+  const handleUpdate = (task) => {
+    setCurrentTask(task);
+  };
 
   return (
     <div>
@@ -23,12 +28,12 @@ const TaskList = () => {
             <tr key={task.id}>
               <td>{task.name}</td>
               <td>{task.description}</td>
-              <td>{task.date_due}</td>
+              <td>{task.date_due.split(" ")[0]}</td>
               <td>{task.progress}%</td>
               <td>{task.employee_id ? task.employee_id : "Unassigned"}</td>
               <td>
                 <button onClick={() => assignTask(task.id)}>Assign</button>
-                <button onClick={() => updateTask(task)}>Update</button>
+                <button onClick={() => handleUpdate(task)}>Update</button>
                 <button onClick={() => deleteTask(task.id)}>Delete</button>
               </td>
             </tr>

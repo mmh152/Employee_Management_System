@@ -31,10 +31,14 @@ const TaskForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const formattedTask = {
+      ...task,
+      date_due: task.date_due.split("T")[0], // Extract only the date portion
+    };
     if (currentTask) {
-      updateTask(task);
+      updateTask(formattedTask);
     } else {
-      addTask(task);
+      addTask(formattedTask);
     }
     clearCurrentTask();
   };
