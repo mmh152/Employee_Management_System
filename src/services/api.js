@@ -155,14 +155,14 @@ export const deleteTask = async (taskId) => {
   }
 };
 
-export const assignTask = async (taskId, username) => {
+export const assignTask = async (taskId, employeeId) => {
   try {
     const response = await fetch(`${API_BASE_URL}/assign_task`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ task_id: taskId, username }),
+      body: JSON.stringify({ task_id: taskId, employee_id: employeeId }),
     });
     if (!response.ok) {
       throw new Error("Network response was not ok");
