@@ -1,11 +1,16 @@
+import { getToken } from "../utils/auth";
+
 const API_BASE_URL = "http://127.0.0.1:5000";
 
 export const getEmployees = async () => {
   try {
+    const token = getToken();
     const response = await fetch(`${API_BASE_URL}/view_employees`, {
       method: "GET",
+
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
     });
     if (!response.ok) {
@@ -20,10 +25,12 @@ export const getEmployees = async () => {
 
 export const addEmployee = async (employeeData) => {
   try {
+    const token = getToken();
     const response = await fetch(`${API_BASE_URL}/add_employee`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(employeeData),
     });
@@ -39,12 +46,14 @@ export const addEmployee = async (employeeData) => {
 
 export const updateEmployee = async (username, employeeData) => {
   try {
+    const token = getToken();
     const response = await fetch(
       `${API_BASE_URL}/update_employee/${username}`,
       {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(employeeData),
       }
@@ -61,10 +70,12 @@ export const updateEmployee = async (username, employeeData) => {
 
 export const deleteEmployee = async (username) => {
   try {
+    const token = getToken();
     const response = await fetch(`${API_BASE_URL}/delete_employee`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({ username }),
     });
@@ -82,10 +93,12 @@ export const deleteEmployee = async (username) => {
 
 export const getTasks = async () => {
   try {
+    const token = getToken();
     const response = await fetch(`${API_BASE_URL}/view_tasks`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
     });
     if (!response.ok) {
@@ -100,10 +113,12 @@ export const getTasks = async () => {
 
 export const addTask = async (taskData) => {
   try {
+    const token = getToken();
     const response = await fetch(`${API_BASE_URL}/add_task`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(taskData),
     });
@@ -119,10 +134,12 @@ export const addTask = async (taskData) => {
 
 export const updateTask = async (taskData) => {
   try {
+    const token = getToken();
     const response = await fetch(`${API_BASE_URL}/update_task`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(taskData),
     });
@@ -138,10 +155,12 @@ export const updateTask = async (taskData) => {
 
 export const deleteTask = async (taskId) => {
   try {
+    const token = getToken();
     const response = await fetch(`${API_BASE_URL}/delete_task`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({ id: taskId }),
     });
@@ -157,10 +176,12 @@ export const deleteTask = async (taskId) => {
 
 export const assignTask = async (taskId, employeeId) => {
   try {
+    const token = getToken();
     const response = await fetch(`${API_BASE_URL}/assign_task`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({ task_id: taskId, employee_id: employeeId }),
     });
@@ -170,6 +191,28 @@ export const assignTask = async (taskId, employeeId) => {
     return await response.json();
   } catch (error) {
     console.error("There was a problem with the fetch operation:", error);
+    throw error;
+  }
+};
+
+export const login = async (username, password) => {
+  try {
+    const response = await fetch(`${API_BASE_URL}/login`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ username, password }),
+    });
+
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("There was a problem with the login operation:", error);
     throw error;
   }
 };

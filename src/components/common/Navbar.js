@@ -1,11 +1,14 @@
 // Navbar.js
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { removeToken } from "../../utils/auth";
 
 const Navbar = () => {
+  const navigate = useNavigate();
+
   const handleLogout = () => {
-    // TODO: Implement logout functionality
-    console.log("Logout clicked");
+    removeToken();
+    navigate("/");
   };
 
   return (
