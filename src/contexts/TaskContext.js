@@ -55,30 +55,6 @@ const TaskProvider = ({ children }) => {
     [fetchTasks]
   );
 
-  // const assignTask = useCallback(
-  //   async (taskId, employeeId) => {
-  //     try {
-  //       await api.assignTask(taskId, employeeId);
-  //       fetchTasks();
-  //     } catch (error) {
-  //       console.error("Failed to assign task", error);
-  //     }
-  //   },
-  //   [fetchTasks]
-  // );
-
-  // const assignTask = useCallback(
-  //   async (taskId, username) => {
-  //     try {
-  //       await api.assignTask(taskId, username);
-  //       fetchTasks();
-  //     } catch (error) {
-  //       console.error("Failed to assign task", error);
-  //     }
-  //   },
-  //   [fetchTasks]
-  // );
-
   const assignTask = useCallback(
     async (taskId, employeeId) => {
       try {
