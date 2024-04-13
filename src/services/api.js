@@ -195,6 +195,47 @@ export const assignTask = async (taskId, employeeId) => {
   }
 };
 
+export const getEmployeeTasks = async () => {
+  try {
+    const token = getToken();
+    const response = await fetch(`${API_BASE_URL}/employee_tasks`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
+    }
+    return await response.json();
+  } catch (error) {
+    console.error("There was a problem with the fetch operation:", error);
+    throw error;
+  }
+};
+
+export const updateTaskProgress = async (taskId, progress) => {
+  try {
+    const token = getToken();
+    const response = await fetch(`${API_BASE_URL}/update_task_progress`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ task_id: taskId, progress }),
+    });
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
+    }
+    return await response.json();
+  } catch (error) {
+    console.error("There was a problem with the fetch operation:", error);
+    throw error;
+  }
+};
+
 export const login = async (username, password) => {
   try {
     const response = await fetch(`${API_BASE_URL}/login`, {

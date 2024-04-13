@@ -34,6 +34,7 @@ const TaskForm = () => {
     const formattedTask = {
       ...task,
       date_due: task.date_due.split("T")[0], // Extract only the date portion
+      progress: parseInt(task.progress), // Convert progress to an integer
     };
     if (currentTask) {
       updateTask(formattedTask);

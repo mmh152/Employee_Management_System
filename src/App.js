@@ -1,4 +1,3 @@
-// App.js
 import React from "react";
 import {
   BrowserRouter as Router,
@@ -14,6 +13,7 @@ import EmployeePage from "./pages/EmployeePage";
 import "./App.css";
 import EmployeeProvider from "./contexts/EmployeeContext";
 import TaskProvider from "./contexts/TaskContext";
+import EmployeeTaskProvider from "./contexts/EmployeeTaskContext";
 import { isAuthenticated, getUserRole } from "./utils/auth";
 
 const PrivateRoute = ({ element: Element, roles, ...rest }) => {
@@ -31,46 +31,48 @@ const App = () => {
   return (
     <EmployeeProvider>
       <TaskProvider>
-        <Router>
-          <Routes>
-            <Route path="/" element={<LoginPage />} />
-            <Route
-              path="/employeemanagement"
-              element={
-                <PrivateRoute
-                  element={EmployeeManagementPage}
-                  roles={["manager"]}
-                />
-              }
-            />
-            <Route
-              path="/taskmanagement"
-              element={
-                <PrivateRoute
-                  element={TaskManagementPage}
-                  roles={["manager"]}
-                />
-              }
-            />
-            <Route
-              path="/settings"
-              element={
-                <PrivateRoute
-                  element={SettingsPage}
-                  roles={["manager", "employee"]}
-                />
-              }
-            />
-            <Route
-              path="/employee"
-              element={
-                <PrivateRoute element={EmployeePage} roles={["employee"]} />
-              }
-            />
-            {/* Redirect to login page if any other path is hit */}
-            <Route path="*" element={<Navigate to="/" replace />} />
-          </Routes>
-        </Router>
+        <EmployeeTaskProvider>
+          <Router>
+            <Routes>
+              <Route path="/" element={<LoginPage />} />
+              <Route
+                path="/employeemanagement"
+                element={
+                  <PrivateRoute
+                    element={EmployeeManagementPage}
+                    roles={["manager"]}
+                  />
+                }
+              />
+              <Route
+                path="/taskmanagement"
+                element={
+                  <PrivateRoute
+                    element={TaskManagementPage}
+                    roles={["manager"]}
+                  />
+                }
+              />
+              <Route
+                path="/settings"
+                element={
+                  <PrivateRoute
+                    element={SettingsPage}
+                    roles={["manager", "employee"]}
+                  />
+                }
+              />
+              <Route
+                path="/employee"
+                element={
+                  <PrivateRoute element={EmployeePage} roles={["employee"]} />
+                }
+              />
+              {/* Redirect to login page if any other path is hit */}
+              <Route path="*" element={<Navigate to="/" replace />} />
+            </Routes>
+          </Router>
+        </EmployeeTaskProvider>
       </TaskProvider>
     </EmployeeProvider>
   );
