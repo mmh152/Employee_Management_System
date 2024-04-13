@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from "react";
 import { EmployeeTaskContext } from "../contexts/EmployeeTaskContext";
-import EmployeeNavbar from "../components/common/Navbar";
+import EmployeeNavbar from "../components/common/EmployeeNavbar";
 
 const EmployeePage = () => {
   const { tasks, loading, error, fetchTasks, updateProgress } =
