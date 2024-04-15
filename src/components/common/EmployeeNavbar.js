@@ -17,7 +17,7 @@ const EmployeeNavbar = () => {
           <Link to="/employee">My Tasks</Link>
         </li>
         <li>
-          <Link to="/employee/settings">Settings</Link>
+          <Link to="/settings">Settings</Link>
         </li>
         <li>
           <button onClick={handleLogout}>Logout</button>
