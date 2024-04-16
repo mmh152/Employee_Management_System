@@ -281,3 +281,27 @@ export const login = async (username, password) => {
     throw error;
   }
 };
+
+export const changePassword = async (oldPassword, newPassword) => {
+  try {
+    const token = getToken();
+    const response = await fetch(`${API_BASE_URL}/change_password`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        old_password: oldPassword,
+        new_password: newPassword,
+      }),
+    });
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
+    }
+    return await response.json();
+  } catch (error) {
+    console.error("There was a problem with the fetch operation:", error);
+    throw error;
+  }
+};
