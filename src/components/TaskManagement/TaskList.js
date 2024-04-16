@@ -7,6 +7,7 @@ const TaskList = () => {
     useContext(TaskContext);
   const { employees } = useContext(EmployeeContext);
   const [selectedEmployees, setSelectedEmployees] = useState({});
+  const [successMessage, setSuccessMessage] = useState("");
 
   const handleUpdate = (task) => {
     setCurrentTask(task);
@@ -19,16 +20,28 @@ const TaskList = () => {
     }));
   };
 
-  const handleAssign = (taskId) => {
+  const handleAssign = async (taskId) => {
     const employeeId = selectedEmployees[taskId];
     if (employeeId) {
-      assignTask(taskId, employeeId);
+      try {
+        await assignTask(taskId, employeeId);
+        setSuccessMessage(
+          "Task successfully assigned and email sent to the employee."
+        );
+        setTimeout(() => {
+          setSuccessMessage("");
+        }, 3000);
+      } catch (error) {
+        console.error("Failed to assign task:", error);
+        // Handle the error, display an error message, or perform any other necessary actions
+      }
     }
   };
 
   return (
     <div>
       <h2>Task List</h2>
+      {successMessage && <p className="success-message">{successMessage}</p>}
       <table>
         <thead>
           <tr>

@@ -174,6 +174,27 @@ export const deleteTask = async (taskId) => {
   }
 };
 
+// export const assignTask = async (taskId, employeeId) => {
+//   try {
+//     const token = getToken();
+//     const response = await fetch(`${API_BASE_URL}/assign_task`, {
+//       method: "POST",
+//       headers: {
+//         "Content-Type": "application/json",
+//         Authorization: `Bearer ${token}`,
+//       },
+//       body: JSON.stringify({ task_id: taskId, employee_id: employeeId }),
+//     });
+//     if (!response.ok) {
+//       throw new Error("Network response was not ok");
+//     }
+//     return await response.json();
+//   } catch (error) {
+//     console.error("There was a problem with the fetch operation:", error);
+//     throw error;
+//   }
+// };
+
 export const assignTask = async (taskId, employeeId) => {
   try {
     const token = getToken();
@@ -185,12 +206,15 @@ export const assignTask = async (taskId, employeeId) => {
       },
       body: JSON.stringify({ task_id: taskId, employee_id: employeeId }),
     });
+
     if (!response.ok) {
-      throw new Error("Network response was not ok");
+      const errorData = await response.json();
+      throw new Error(errorData.error);
     }
+
     return await response.json();
   } catch (error) {
-    console.error("There was a problem with the fetch operation:", error);
+    console.error("There was a problem with the assign task operation:", error);
     throw error;
   }
 };
