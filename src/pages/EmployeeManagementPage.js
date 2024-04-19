@@ -67,9 +67,9 @@ const EmployeeManagementPage = () => {
         <StyledTypography variant="h4">Employee Management</StyledTypography>
         <AddEmployeeButton />
         {(isAddingEmployee || currentEmployee) && <EmployeeForm />}
-        <Divider sx={{ bgcolor: "black", height: "1px", mt: 5, mb: 2 }} />
+        <Divider sx={{ bgcolor: "black", height: "2px", mt: 5, mb: 3 }} />
         <EmployeeList />
-        <Divider sx={{ bgcolor: "black", height: "1px", mt: 5, mb: 2 }} />
+        <Divider sx={{ bgcolor: "black", height: "2px", mt: 5, mb: 2 }} />
         <StyledButton variant="contained" onClick={handleOpenDialog}>
           Send Broadcast Message
         </StyledButton>
