@@ -305,3 +305,44 @@ export const changePassword = async (oldPassword, newPassword) => {
     throw error;
   }
 };
+
+export const sendBroadcastMessage = async (message) => {
+  try {
+    const token = getToken();
+    const response = await fetch(`${API_BASE_URL}/send_broadcast_message`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ sender: "Manager", content: message }),
+    });
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
+    }
+    return await response.json();
+  } catch (error) {
+    console.error("There was a problem with the fetch operation:", error);
+    throw error;
+  }
+};
+
+export const getBroadcastMessages = async () => {
+  try {
+    const token = getToken();
+    const response = await fetch(`${API_BASE_URL}/get_broadcast_messages`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
+    }
+    return await response.json();
+  } catch (error) {
+    console.error("There was a problem with the fetch operation:", error);
+    throw error;
+  }
+};
