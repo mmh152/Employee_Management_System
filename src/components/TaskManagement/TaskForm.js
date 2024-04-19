@@ -1,5 +1,23 @@
 import React, { useState, useContext, useEffect } from "react";
+import { TextField, Button, Grid, Typography } from "@mui/material";
+import { styled } from "@mui/system";
 import { TaskContext } from "../../contexts/TaskContext";
+
+const StyledForm = styled("form")(({ theme }) => ({
+  marginTop: theme.spacing(2),
+}));
+
+const StyledTextField = styled(TextField)(({ theme }) => ({
+  marginBottom: theme.spacing(2),
+}));
+
+const StyledButton = styled(Button)(({ theme }) => ({
+  backgroundColor: "#22c55e",
+  color: "#0c0a09",
+  "&:hover": {
+    backgroundColor: "#1a9f4a",
+  },
+}));
 
 const TaskForm = () => {
   const { addTask, currentTask, updateTask, clearCurrentTask } =
@@ -45,40 +63,71 @@ const TaskForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input
-        type="text"
-        name="name"
-        value={task.name}
-        onChange={handleChange}
-        placeholder="Task Name"
-        required
-      />
-      <textarea
-        name="description"
-        value={task.description}
-        onChange={handleChange}
-        placeholder="Task Description"
-        required
-      ></textarea>
-      <input
-        type="date"
-        name="date_due"
-        value={task.date_due}
-        onChange={handleChange}
-        required
-      />
-      <input
-        type="number"
-        name="progress"
-        value={task.progress}
-        onChange={handleChange}
-        min="0"
-        max="100"
-        required
-      />
-      <button type="submit">{currentTask ? "Update Task" : "Add Task"}</button>
-    </form>
+    <StyledForm onSubmit={handleSubmit}>
+      <Grid container spacing={2}>
+        <Grid item xs={12}>
+          <Typography variant="h6">
+            {currentTask ? "Update Task" : "Add Task"}
+          </Typography>
+        </Grid>
+        <Grid item xs={12}>
+          <StyledTextField
+            fullWidth
+            name="name"
+            label="Task Name"
+            value={task.name}
+            onChange={handleChange}
+            required
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <StyledTextField
+            fullWidth
+            name="description"
+            label="Task Description"
+            multiline
+            rows={4}
+            value={task.description}
+            onChange={handleChange}
+            required
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <StyledTextField
+            fullWidth
+            name="date_due"
+            label="Due Date"
+            type="date"
+            value={task.date_due}
+            onChange={handleChange}
+            required
+            InputLabelProps={{
+              shrink: true,
+            }}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <StyledTextField
+            fullWidth
+            name="progress"
+            label="Progress"
+            type="number"
+            value={task.progress}
+            onChange={handleChange}
+            required
+            inputProps={{
+              min: 0,
+              max: 100,
+            }}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <StyledButton type="submit" variant="contained">
+            {currentTask ? "Update Task" : "Add Task"}
+          </StyledButton>
+        </Grid>
+      </Grid>
+    </StyledForm>
   );
 };
 

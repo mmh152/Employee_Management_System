@@ -1,10 +1,19 @@
-// TaskManagementPage.js
 import React, { useContext, useEffect } from "react";
+import { Container, Typography } from "@mui/material";
+import { styled } from "@mui/system";
 import TaskList from "../components/TaskManagement/TaskList";
 import TaskForm from "../components/TaskManagement/TaskForm";
 import AddTaskButton from "../components/TaskManagement/AddTaskButton";
 import { TaskContext } from "../contexts/TaskContext";
 import Navbar from "../components/common/Navbar";
+
+const StyledContainer = styled(Container)(({ theme }) => ({
+  marginTop: theme.spacing(4),
+}));
+
+const StyledTypography = styled(Typography)(({ theme }) => ({
+  marginBottom: theme.spacing(2),
+}));
 
 const TaskManagementPage = () => {
   const { isAddingTask, currentTask, fetchTasks } = useContext(TaskContext);
@@ -16,10 +25,12 @@ const TaskManagementPage = () => {
   return (
     <div>
       <Navbar />
-      <h1>Task Management</h1>
-      <AddTaskButton />
-      {(isAddingTask || currentTask) && <TaskForm />}
-      <TaskList />
+      <StyledContainer>
+        <StyledTypography variant="h4">Task Management</StyledTypography>
+        <AddTaskButton />
+        {(isAddingTask || currentTask) && <TaskForm />}
+        <TaskList />
+      </StyledContainer>
     </div>
   );
 };

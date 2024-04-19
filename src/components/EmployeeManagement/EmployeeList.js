@@ -1,5 +1,31 @@
 import React, { useContext } from "react";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  Button,
+  Typography,
+} from "@mui/material";
+import { styled } from "@mui/system";
 import { EmployeeContext } from "../../contexts/EmployeeContext";
+
+const StyledTableContainer = styled(TableContainer)(({ theme }) => ({
+  marginTop: theme.spacing(2),
+}));
+
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+  backgroundColor: "#22c55e",
+  color: "#0c0a09",
+  fontWeight: "bold",
+}));
+
+const StyledButton = styled(Button)(({ theme }) => ({
+  marginRight: theme.spacing(1),
+}));
 
 const EmployeeList = () => {
   const { employees, deleteEmployee, startUpdateProcess } =
@@ -7,40 +33,52 @@ const EmployeeList = () => {
 
   return (
     <div>
-      <h2>Employee List</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>Username</th>
-            <th>Email</th>
-            <th>Gender</th>
-            <th>Phone</th>
-            <th>Role</th>
-            <th>Profession</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {employees.map((employee) => (
-            <tr key={employee.id}>
-              <td>{employee.username}</td>
-              <td>{employee.email}</td>
-              <td>{employee.gender}</td>
-              <td>{employee.phone}</td>
-              <td>{employee.role}</td>
-              <td>{employee.profession}</td>
-              <td>
-                <button onClick={() => startUpdateProcess(employee)}>
-                  Update
-                </button>
-                <button onClick={() => deleteEmployee(employee.username)}>
-                  Delete
-                </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <Typography variant="h5" gutterBottom>
+        Employee List
+      </Typography>
+      <StyledTableContainer component={Paper}>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <StyledTableCell>Username</StyledTableCell>
+              <StyledTableCell>Email</StyledTableCell>
+              <StyledTableCell>Gender</StyledTableCell>
+              <StyledTableCell>Phone</StyledTableCell>
+              <StyledTableCell>Role</StyledTableCell>
+              <StyledTableCell>Profession</StyledTableCell>
+              <StyledTableCell>Actions</StyledTableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {employees.map((employee) => (
+              <TableRow key={employee.id}>
+                <TableCell>{employee.username}</TableCell>
+                <TableCell>{employee.email}</TableCell>
+                <TableCell>{employee.gender}</TableCell>
+                <TableCell>{employee.phone}</TableCell>
+                <TableCell>{employee.role}</TableCell>
+                <TableCell>{employee.profession}</TableCell>
+                <TableCell>
+                  <StyledButton
+                    variant="outlined"
+                    color="primary"
+                    onClick={() => startUpdateProcess(employee)}
+                  >
+                    Update
+                  </StyledButton>
+                  <StyledButton
+                    variant="outlined"
+                    color="secondary"
+                    onClick={() => deleteEmployee(employee.username)}
+                  >
+                    Delete
+                  </StyledButton>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </StyledTableContainer>
     </div>
   );
 };

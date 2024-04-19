@@ -1,8 +1,31 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Container, Typography, Box } from "@mui/material";
+import { styled } from "@mui/system";
 import LoginForm from "../components/common/LoginForm";
 import * as api from "../services/api";
 import { setToken } from "../utils/auth";
+
+const StyledContainer = styled(Container)(({ theme }) => ({
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  justifyContent: "center",
+  minHeight: "100vh",
+  backgroundColor: "#fafaf9",
+}));
+
+const StyledTypography = styled(Typography)(({ theme }) => ({
+  marginBottom: theme.spacing(4),
+  color: "#0c0a09",
+}));
+
+const StyledBox = styled(Box)(({ theme }) => ({
+  backgroundColor: "#ffffff",
+  padding: theme.spacing(4),
+  borderRadius: theme.spacing(1),
+  boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
+}));
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -14,7 +37,6 @@ const LoginPage = () => {
       const { token } = response;
       setToken(token);
 
-      // Decode the token to get the user's role
       const decodedToken = JSON.parse(atob(token.split(".")[1]));
       const role = decodedToken.role;
 
@@ -31,11 +53,17 @@ const LoginPage = () => {
   };
 
   return (
-    <div>
-      <h1>Login</h1>
-      {error && <p>{error}</p>}
-      <LoginForm onLogin={handleLogin} />
-    </div>
+    <StyledContainer>
+      <StyledTypography variant="h4">Login Page</StyledTypography>
+      <StyledBox>
+        {error && (
+          <Typography color="error" gutterBottom>
+            {error}
+          </Typography>
+        )}
+        <LoginForm onLogin={handleLogin} />
+      </StyledBox>
+    </StyledContainer>
   );
 };
 

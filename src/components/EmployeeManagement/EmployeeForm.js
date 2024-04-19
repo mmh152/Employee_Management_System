@@ -1,5 +1,24 @@
 import React, { useState, useContext, useEffect, useCallback } from "react";
+import { TextField, Button, Grid, Typography } from "@mui/material";
+import { styled } from "@mui/system";
 import { EmployeeContext } from "../../contexts/EmployeeContext";
+
+const StyledForm = styled("form")(({ theme }) => ({
+  marginTop: theme.spacing(2),
+}));
+
+const StyledTextField = styled(TextField)(({ theme }) => ({
+  marginBottom: theme.spacing(2),
+}));
+
+const StyledButton = styled(Button)(({ theme }) => ({
+  backgroundColor: "#22c55e",
+  color: "#0c0a09",
+  "&:hover": {
+    backgroundColor: "#1a9f4a",
+  },
+  marginRight: theme.spacing(2),
+}));
 
 const EmployeeForm = () => {
   const { addEmployee, updateEmployee, currentEmployee, clearCurrentEmployee } =
@@ -27,7 +46,6 @@ const EmployeeForm = () => {
     clearCurrentEmployee();
   }, [clearCurrentEmployee]);
 
-  // If currentEmployee is not null, populate the form fields for update
   useEffect(() => {
     if (currentEmployee) {
       setEmployee(currentEmployee);
@@ -51,65 +69,91 @@ const EmployeeForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input
-        type="text"
-        name="username"
-        value={employee.username}
-        onChange={handleChange}
-        placeholder="Username"
-        required
-      />
-
-      <input
-        type="password"
-        name="password"
-        value={employee.password}
-        onChange={handleChange}
-        placeholder="Password"
-        required
-      />
-      <input
-        type="email"
-        name="email"
-        value={employee.email}
-        onChange={handleChange}
-        placeholder="Email"
-        required
-      />
-      <input
-        type="text"
-        name="gender"
-        value={employee.gender}
-        onChange={handleChange}
-        placeholder="Gender"
-      />
-      <input
-        type="text"
-        name="phone"
-        value={employee.phone}
-        onChange={handleChange}
-        placeholder="Phone"
-      />
-      <input
-        type="text"
-        name="role"
-        value={employee.role}
-        onChange={handleChange}
-        placeholder="Role"
-      />
-      <input
-        type="text"
-        name="profession"
-        value={employee.profession}
-        onChange={handleChange}
-        placeholder="Profession"
-      />
-      <button type="submit">Submit</button>
-      <button type="button" onClick={clearForm}>
-        Clear
-      </button>
-    </form>
+    <StyledForm onSubmit={handleSubmit}>
+      <Grid container spacing={2}>
+        <Grid item xs={12}>
+          <Typography variant="h6">
+            {currentEmployee ? "Update Employee" : "Add Employee"}
+          </Typography>
+        </Grid>
+        <Grid item xs={12}>
+          <StyledTextField
+            fullWidth
+            name="username"
+            label="Username"
+            value={employee.username}
+            onChange={handleChange}
+            required
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <StyledTextField
+            fullWidth
+            name="password"
+            label="Password"
+            type="password"
+            value={employee.password}
+            onChange={handleChange}
+            required
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <StyledTextField
+            fullWidth
+            name="email"
+            label="Email"
+            type="email"
+            value={employee.email}
+            onChange={handleChange}
+            required
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <StyledTextField
+            fullWidth
+            name="gender"
+            label="Gender"
+            value={employee.gender}
+            onChange={handleChange}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <StyledTextField
+            fullWidth
+            name="phone"
+            label="Phone"
+            value={employee.phone}
+            onChange={handleChange}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <StyledTextField
+            fullWidth
+            name="role"
+            label="Role"
+            value={employee.role}
+            onChange={handleChange}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <StyledTextField
+            fullWidth
+            name="profession"
+            label="Profession"
+            value={employee.profession}
+            onChange={handleChange}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <StyledButton type="submit" variant="contained">
+            {currentEmployee ? "Update" : "Submit"}
+          </StyledButton>
+          <StyledButton type="button" variant="outlined" onClick={clearForm}>
+            Clear
+          </StyledButton>
+        </Grid>
+      </Grid>
+    </StyledForm>
   );
 };
 

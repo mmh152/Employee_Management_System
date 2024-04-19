@@ -1,6 +1,38 @@
 import React, { useContext, useState } from "react";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  Button,
+  Typography,
+  Select,
+  MenuItem,
+} from "@mui/material";
+import { styled } from "@mui/system";
 import { TaskContext } from "../../contexts/TaskContext";
 import { EmployeeContext } from "../../contexts/EmployeeContext";
+
+const StyledTableContainer = styled(TableContainer)(({ theme }) => ({
+  marginTop: theme.spacing(2),
+}));
+
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+  backgroundColor: "#22c55e",
+  color: "#0c0a09",
+  fontWeight: "bold",
+}));
+
+const StyledButton = styled(Button)(({ theme }) => ({
+  marginRight: theme.spacing(1),
+}));
+
+const StyledSelect = styled(Select)(({ theme }) => ({
+  marginRight: theme.spacing(1),
+}));
 
 const TaskList = () => {
   const { tasks, deleteTask, setCurrentTask, assignTask } =
@@ -40,55 +72,79 @@ const TaskList = () => {
 
   return (
     <div>
-      <h2>Task List</h2>
-      {successMessage && <p className="success-message">{successMessage}</p>}
-      <table>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Description</th>
-            <th>Due Date</th>
-            <th>Progress</th>
-            <th>Assigned To</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {tasks.map((task) => (
-            <tr key={task.id}>
-              <td>{task.name}</td>
-              <td>{task.description}</td>
-              <td>{task.date_due}</td>
-              <td>{task.progress}%</td>
-              <td>
-                {task.assigned_employees
-                  ? task.assigned_employees
-                      .split(",")
-                      .map((employee) => <div key={employee}>{employee}</div>)
-                  : "Unassigned"}
-              </td>
-              <td>
-                <select
-                  value={selectedEmployees[task.id] || ""}
-                  onChange={(e) =>
-                    handleEmployeeSelect(task.id, e.target.value)
-                  }
-                >
-                  <option value="">Select Employee</option>
-                  {employees.map((employee) => (
-                    <option key={employee.id} value={employee.id}>
-                      {employee.username}
-                    </option>
-                  ))}
-                </select>
-                <button onClick={() => handleAssign(task.id)}>Assign</button>
-                <button onClick={() => handleUpdate(task)}>Update</button>
-                <button onClick={() => deleteTask(task.id)}>Delete</button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <Typography variant="h5" gutterBottom>
+        Task List
+      </Typography>
+      {successMessage && (
+        <Typography color="success">{successMessage}</Typography>
+      )}
+      <StyledTableContainer component={Paper}>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <StyledTableCell>Name</StyledTableCell>
+              <StyledTableCell>Description</StyledTableCell>
+              <StyledTableCell>Due Date</StyledTableCell>
+              <StyledTableCell>Progress</StyledTableCell>
+              <StyledTableCell>Assigned To</StyledTableCell>
+              <StyledTableCell>Actions</StyledTableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {tasks.map((task) => (
+              <TableRow key={task.id}>
+                <TableCell>{task.name}</TableCell>
+                <TableCell>{task.description}</TableCell>
+                <TableCell>{task.date_due}</TableCell>
+                <TableCell>{task.progress}%</TableCell>
+                <TableCell>
+                  {task.assigned_employees
+                    ? task.assigned_employees
+                        .split(",")
+                        .map((employee) => <div key={employee}>{employee}</div>)
+                    : "Unassigned"}
+                </TableCell>
+                <TableCell>
+                  <StyledSelect
+                    value={selectedEmployees[task.id] || ""}
+                    onChange={(e) =>
+                      handleEmployeeSelect(task.id, e.target.value)
+                    }
+                  >
+                    <MenuItem value="">Select Employee</MenuItem>
+                    {employees.map((employee) => (
+                      <MenuItem key={employee.id} value={employee.id}>
+                        {employee.username}
+                      </MenuItem>
+                    ))}
+                  </StyledSelect>
+                  <StyledButton
+                    variant="outlined"
+                    color="primary"
+                    onClick={() => handleAssign(task.id)}
+                  >
+                    Assign
+                  </StyledButton>
+                  <StyledButton
+                    variant="outlined"
+                    color="primary"
+                    onClick={() => handleUpdate(task)}
+                  >
+                    Update
+                  </StyledButton>
+                  <StyledButton
+                    variant="outlined"
+                    color="secondary"
+                    onClick={() => deleteTask(task.id)}
+                  >
+                    Delete
+                  </StyledButton>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </StyledTableContainer>
     </div>
   );
 };
