@@ -578,3 +578,4 @@ if __name__ == '__main__':
 #DID TESTING ON THIS ALL IS GOOD SO FAR
 # MORE TESTING IS DONE HERE NEED TO ADD LAST FEATURES
 # TRY TO ADD FOR SLIDING for progress
+# need to fix input validations 
