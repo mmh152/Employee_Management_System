@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from "react";
-import { Container, Typography } from "@mui/material";
+import { Container, Typography, Divider } from "@mui/material";
 import { styled } from "@mui/system";
 import TaskList from "../components/TaskManagement/TaskList";
 import TaskForm from "../components/TaskManagement/TaskForm";
@@ -28,7 +28,9 @@ const TaskManagementPage = () => {
       <StyledContainer>
         <StyledTypography variant="h4">Task Management</StyledTypography>
         <AddTaskButton />
+
         {(isAddingTask || currentTask) && <TaskForm />}
+        <Divider sx={{ bgcolor: "black", height: "2px", mt: 5, mb: 4 }} />
         <TaskList />
       </StyledContainer>
     </div>

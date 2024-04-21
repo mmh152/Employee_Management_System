@@ -11,6 +11,7 @@ import {
   Typography,
   Select,
   MenuItem,
+  TableSortLabel,
 } from "@mui/material";
 import { styled } from "@mui/system";
 import { TaskContext } from "../../contexts/TaskContext";
@@ -35,11 +36,17 @@ const StyledSelect = styled(Select)(({ theme }) => ({
 }));
 
 const TaskList = () => {
-  const { tasks, deleteTask, setCurrentTask, assignTask } =
-    useContext(TaskContext);
+  const {
+    tasks,
+    deleteTask,
+    setCurrentTask,
+    assignTask,
+    sortBy,
+    setSortBy,
+    sortTasks,
+  } = useContext(TaskContext);
   const { employees } = useContext(EmployeeContext);
   const [selectedEmployees, setSelectedEmployees] = useState({});
-  const [successMessage, setSuccessMessage] = useState("");
 
   const handleUpdate = (task) => {
     setCurrentTask(task);
@@ -52,46 +59,46 @@ const TaskList = () => {
     }));
   };
 
-  const handleAssign = async (taskId) => {
+  const handleAssign = (taskId) => {
     const employeeId = selectedEmployees[taskId];
     if (employeeId) {
-      try {
-        await assignTask(taskId, employeeId);
-        setSuccessMessage(
-          "Task successfully assigned and email sent to the employee."
-        );
-        setTimeout(() => {
-          setSuccessMessage("");
-        }, 3000);
-      } catch (error) {
-        console.error("Failed to assign task:", error);
-        // Handle the error, display an error message, or perform any other necessary actions
-      }
+      assignTask(taskId, employeeId);
     }
   };
+
+  const handleSortByDueDate = () => {
+    setSortBy(sortBy === "dueDate" ? "default" : "dueDate");
+  };
+
+  const sortedTasks = sortTasks(tasks);
 
   return (
     <div>
       <Typography variant="h5" gutterBottom>
         Task List
       </Typography>
-      {successMessage && (
-        <Typography color="success">{successMessage}</Typography>
-      )}
       <StyledTableContainer component={Paper}>
         <Table>
           <TableHead>
             <TableRow>
               <StyledTableCell>Name</StyledTableCell>
               <StyledTableCell>Description</StyledTableCell>
-              <StyledTableCell>Due Date</StyledTableCell>
+              <StyledTableCell>
+                <TableSortLabel
+                  active={sortBy === "dueDate"}
+                  direction={sortBy === "dueDate" ? "asc" : "desc"}
+                  onClick={handleSortByDueDate}
+                >
+                  Due Date
+                </TableSortLabel>
+              </StyledTableCell>
               <StyledTableCell>Progress</StyledTableCell>
               <StyledTableCell>Assigned To</StyledTableCell>
               <StyledTableCell>Actions</StyledTableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {tasks.map((task) => (
+            {sortedTasks.map((task) => (
               <TableRow key={task.id}>
                 <TableCell>{task.name}</TableCell>
                 <TableCell>{task.description}</TableCell>

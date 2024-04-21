@@ -14,7 +14,7 @@ import {
   DialogTitle,
   DialogContent,
   DialogActions,
-  Divider,
+  Slider,
 } from "@mui/material";
 import { styled } from "@mui/system";
 import { EmployeeTaskContext } from "../contexts/EmployeeTaskContext";
@@ -86,7 +86,6 @@ const EmployeePage = () => {
                   <StyledTableCell>Description</StyledTableCell>
                   <StyledTableCell>Due Date</StyledTableCell>
                   <StyledTableCell>Progress</StyledTableCell>
-                  <StyledTableCell>Action</StyledTableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -95,19 +94,15 @@ const EmployeePage = () => {
                     <TableCell>{task.name}</TableCell>
                     <TableCell>{task.description}</TableCell>
                     <TableCell>{task.date_due}</TableCell>
-                    <TableCell>{task.progress}%</TableCell>
                     <TableCell>
-                      <input
-                        type="number"
-                        min="0"
-                        max="100"
+                      <Slider
                         value={task.progress}
-                        onChange={(e) =>
-                          handleProgressUpdate(
-                            task.id,
-                            parseInt(e.target.value)
-                          )
+                        onChange={(e, newValue) =>
+                          handleProgressUpdate(task.id, newValue)
                         }
+                        min={0}
+                        max={100}
+                        valueLabelDisplay="auto"
                       />
                     </TableCell>
                   </TableRow>

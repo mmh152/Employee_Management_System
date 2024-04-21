@@ -7,6 +7,7 @@ const TaskProvider = ({ children }) => {
   const [tasks, setTasks] = useState([]);
   const [isAddingTask, setIsAddingTask] = useState(false);
   const [currentTask, setCurrentTask] = useState(null);
+  const [sortBy, setSortBy] = useState("default");
 
   const fetchTasks = useCallback(async () => {
     try {
@@ -71,6 +72,18 @@ const TaskProvider = ({ children }) => {
     setCurrentTask(null);
   };
 
+  const sortTasks = useCallback(
+    (tasks) => {
+      if (sortBy === "dueDate") {
+        return [...tasks].sort(
+          (a, b) => new Date(a.date_due) - new Date(b.date_due)
+        );
+      }
+      return tasks;
+    },
+    [sortBy]
+  );
+
   return (
     <TaskContext.Provider
       value={{
@@ -85,6 +98,9 @@ const TaskProvider = ({ children }) => {
         deleteTask,
         assignTask,
         clearCurrentTask,
+        sortBy,
+        setSortBy,
+        sortTasks,
       }}
     >
       {children}

@@ -42,7 +42,7 @@ const EmployeeNavbar = () => {
   return (
     <StyledAppBar position="static">
       <StyledToolbar>
-        <StyledTypography variant="h6">Employee Dashboard</StyledTypography>
+        <StyledTypography variant="h6">Employee's Page</StyledTypography>
         <div>
           <StyledButton component={Link} to="/employee">
             My Tasks
