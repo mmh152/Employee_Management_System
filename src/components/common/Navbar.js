@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { removeToken } from "../../utils/auth";
 import {
@@ -9,6 +9,7 @@ import {
   IconButton,
   Menu,
   MenuItem,
+  TextField,
 } from "@mui/material";
 import { styled } from "@mui/system";
 
@@ -31,12 +32,37 @@ const StyledButton = styled(Button)(({ theme }) => ({
   marginLeft: theme.spacing(2),
 }));
 
-const Navbar = () => {
+const StyledTextField = styled(TextField)(({ theme }) => ({
+  marginLeft: theme.spacing(2),
+  "& .MuiInputBase-input": {
+    color: "#0c0a09",
+  },
+  "& .MuiOutlinedInput-root": {
+    "& fieldset": {
+      borderColor: "#0c0a09",
+    },
+    "&:hover fieldset": {
+      borderColor: "#0c0a09",
+    },
+    "&.Mui-focused fieldset": {
+      borderColor: "#0c0a09",
+    },
+  },
+}));
+
+const Navbar = ({ onSearch }) => {
   const navigate = useNavigate();
+  const [searchQuery, setSearchQuery] = useState("");
 
   const handleLogout = () => {
     removeToken();
     navigate("/");
+  };
+
+  const handleSearchChange = (event) => {
+    const query = event.target.value;
+    setSearchQuery(query);
+    onSearch(query);
   };
 
   return (
@@ -44,6 +70,13 @@ const Navbar = () => {
       <StyledToolbar>
         <StyledTypography variant="h6">Manager's Page</StyledTypography>
         <div>
+          <StyledTextField
+            label="Search Employees"
+            variant="outlined"
+            size="small"
+            value={searchQuery}
+            onChange={handleSearchChange}
+          />
           <StyledButton component={Link} to="/employeemanagement">
             Employee Management
           </StyledButton>

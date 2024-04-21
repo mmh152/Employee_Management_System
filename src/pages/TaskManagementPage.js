@@ -27,6 +27,7 @@ const TaskManagementPage = () => {
       <Navbar />
       <StyledContainer>
         <StyledTypography variant="h4">Task Management</StyledTypography>
+        <Divider sx={{ bgcolor: "black", height: "2px", mt: 3, mb: 4 }} />
         <AddTaskButton />
 
         {(isAddingTask || currentTask) && <TaskForm />}

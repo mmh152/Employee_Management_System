@@ -7,6 +7,7 @@ const EmployeeProvider = ({ children }) => {
   const [employees, setEmployees] = useState([]);
   const [currentEmployee, setCurrentEmployee] = useState(null);
   const [isAddingEmployee, setAddingEmployee] = useState(false);
+  const [searchResults, setSearchResults] = useState([]);
 
   useEffect(() => {
     fetchEmployees();
@@ -24,7 +25,7 @@ const EmployeeProvider = ({ children }) => {
   const addEmployee = async (employeeData) => {
     try {
       await api.addEmployee(employeeData);
-      fetchEmployees(); // Refresh the list after adding
+      fetchEmployees();
     } catch (error) {
       console.error("Failed to add employee", error);
     }
@@ -33,7 +34,7 @@ const EmployeeProvider = ({ children }) => {
   const updateEmployee = async (employee) => {
     try {
       await api.updateEmployee(employee.username, employee);
-      fetchEmployees(); // Refresh the list after updating
+      fetchEmployees();
     } catch (error) {
       console.error("Failed to update employee", error);
     }
@@ -42,7 +43,7 @@ const EmployeeProvider = ({ children }) => {
   const deleteEmployee = async (username) => {
     try {
       await api.deleteEmployee(username);
-      fetchEmployees(); // Refresh the list after deleting
+      fetchEmployees();
     } catch (error) {
       console.error("Failed to delete employee", error);
     }
@@ -55,6 +56,13 @@ const EmployeeProvider = ({ children }) => {
   const startUpdateProcess = (employee) => {
     setCurrentEmployee(employee);
     setAddingEmployee(false);
+  };
+
+  const searchEmployees = (query) => {
+    const filteredResults = employees.filter((employee) =>
+      employee.username.toLowerCase().includes(query.toLowerCase())
+    );
+    setSearchResults(filteredResults);
   };
 
   return (
@@ -70,6 +78,8 @@ const EmployeeProvider = ({ children }) => {
         startUpdateProcess,
         isAddingEmployee,
         setAddingEmployee,
+        searchResults,
+        searchEmployees,
       }}
     >
       {children}

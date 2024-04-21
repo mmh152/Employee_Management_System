@@ -35,6 +35,14 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   fontWeight: "bold",
 }));
 
+const StyledButton = styled(Button)(({ theme }) => ({
+  backgroundColor: "#22c55e",
+  color: "#0c0a09",
+  "&:hover": {
+    backgroundColor: "#1a9f4a",
+  },
+}));
+
 const EmployeePage = () => {
   const { tasks, loading, error, fetchTasks, updateProgress } =
     useContext(EmployeeTaskContext);
@@ -112,9 +120,14 @@ const EmployeePage = () => {
           </StyledTableContainer>
         )}
 
-        <Button variant="contained" color="primary" onClick={handleOpenDialog}>
+        <StyledButton
+          variant="contained"
+          color="primary"
+          onClick={handleOpenDialog}
+          sx={{ mt: 2 }}
+        >
           View Broadcast Messages
-        </Button>
+        </StyledButton>
 
         <Dialog open={openDialog} onClose={handleCloseDialog}>
           <DialogTitle>Broadcast Messages</DialogTitle>
