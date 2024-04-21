@@ -580,3 +580,28 @@ if __name__ == '__main__':
 # TRY TO ADD FOR SLIDING for progress
 # need to fix input validations 
 # final touch ups including the search for employee based on name and the sorting of tasks 
+#s
+#DID TESTING ON THIS ALL IS GOOD SO FAR
+# MORE TESTING IS DONE HERE NEED TO ADD LAST FEATURES
+# TRY TO ADD FOR SLIDING for progress
+# need to fix input validations 
+# final touch ups including the search for employee based on name and the sorting of tasks 
+#s
+#DID TESTING ON THIS ALL IS GOOD SO FAR
+# MORE TESTING IS DONE HERE NEED TO ADD LAST FEATURES
+# TRY TO ADD FOR SLIDING for progress
+# need to fix input validations 
+# final touch ups including the search for employee based on name and the sorting of tasks 
+#s
+#DID TESTING ON THIS ALL IS GOOD SO FAR
+# MORE TESTING IS DONE HERE NEED TO ADD LAST FEATURES
+# TRY TO ADD FOR SLIDING for progress
+# need to fix input validations 
+# final touch ups including the search for employee based on name and the sorting of tasks 
+#s
+#DID TESTING ON THIS ALL IS GOOD SO FAR
+# MORE TESTING IS DONE HERE NEED TO ADD LAST FEATURES
+# TRY TO ADD FOR SLIDING for progress
+# need to fix input validations 
+# final touch ups including the search for employee based on name and the sorting of tasks 
+#s
