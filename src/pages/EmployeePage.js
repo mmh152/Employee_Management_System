@@ -15,6 +15,7 @@ import {
   DialogContent,
   DialogActions,
   Slider,
+  Divider,
 } from "@mui/material";
 import { styled } from "@mui/system";
 import { EmployeeTaskContext } from "../contexts/EmployeeTaskContext";
@@ -83,6 +84,7 @@ const EmployeePage = () => {
         <Typography variant="h4" gutterBottom>
           Employee Tasks
         </Typography>
+        <Divider sx={{ bgcolor: "black", height: "2px", mt: 3, mb: 4 }} />
         {tasks.length === 0 ? (
           <Typography>No tasks assigned to you.</Typography>
         ) : (
@@ -119,7 +121,7 @@ const EmployeePage = () => {
             </Table>
           </StyledTableContainer>
         )}
-
+        <Divider sx={{ bgcolor: "black", height: "2px", mt: 5, mb: 2 }} />
         <StyledButton
           variant="contained"
           color="primary"
