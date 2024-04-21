@@ -572,3 +572,7 @@ def get_broadcast_messages():
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)
+
+
+
+#DID TESTING ON THIS ALL IS GOOD SO FAR
