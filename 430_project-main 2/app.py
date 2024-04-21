@@ -527,6 +527,8 @@ def change_password():
             conn.close()
             return jsonify({'error': 'Invalid old password'}), 400
 
+
+
 @app.route('/send_broadcast_message', methods=["POST"])
 @login_required(role='manager')
 def send_broadcast_message():
@@ -580,4 +582,5 @@ if __name__ == '__main__':
 # TRY TO ADD FOR SLIDING for progress
 # need to fix input validations 
 # final touch ups including the search for employee based on name and the sorting of tasks 
-#s
+# send broadcast fixed  code  
+# double checking all the functions again
