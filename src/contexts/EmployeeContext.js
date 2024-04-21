@@ -1,4 +1,4 @@
-import React, { createContext, useState, useEffect } from "react";
+import React, { createContext, useState, useEffect, useCallback } from "react";
 import * as api from "../services/api";
 
 export const EmployeeContext = createContext();
@@ -7,47 +7,55 @@ const EmployeeProvider = ({ children }) => {
   const [employees, setEmployees] = useState([]);
   const [currentEmployee, setCurrentEmployee] = useState(null);
   const [isAddingEmployee, setAddingEmployee] = useState(false);
-  const [searchResults, setSearchResults] = useState([]);
 
   useEffect(() => {
     fetchEmployees();
   }, []);
 
-  const fetchEmployees = async () => {
+  const fetchEmployees = useCallback(async () => {
     try {
       const data = await api.getEmployees();
       setEmployees(data);
     } catch (error) {
       console.error("Failed to fetch employees", error);
     }
-  };
+  }, []);
 
-  const addEmployee = async (employeeData) => {
-    try {
-      await api.addEmployee(employeeData);
-      fetchEmployees();
-    } catch (error) {
-      console.error("Failed to add employee", error);
-    }
-  };
+  const addEmployee = useCallback(
+    async (employeeData) => {
+      try {
+        await api.addEmployee(employeeData);
+        fetchEmployees();
+      } catch (error) {
+        console.error("Failed to add employee", error);
+      }
+    },
+    [fetchEmployees]
+  );
 
-  const updateEmployee = async (employee) => {
-    try {
-      await api.updateEmployee(employee.username, employee);
-      fetchEmployees();
-    } catch (error) {
-      console.error("Failed to update employee", error);
-    }
-  };
+  const updateEmployee = useCallback(
+    async (employee) => {
+      try {
+        await api.updateEmployee(employee.username, employee);
+        fetchEmployees();
+      } catch (error) {
+        console.error("Failed to update employee", error);
+      }
+    },
+    [fetchEmployees]
+  );
 
-  const deleteEmployee = async (username) => {
-    try {
-      await api.deleteEmployee(username);
-      fetchEmployees();
-    } catch (error) {
-      console.error("Failed to delete employee", error);
-    }
-  };
+  const deleteEmployee = useCallback(
+    async (username) => {
+      try {
+        await api.deleteEmployee(username);
+        fetchEmployees();
+      } catch (error) {
+        console.error("Failed to delete employee", error);
+      }
+    },
+    [fetchEmployees]
+  );
 
   const clearCurrentEmployee = () => {
     setCurrentEmployee(null);
@@ -58,12 +66,18 @@ const EmployeeProvider = ({ children }) => {
     setAddingEmployee(false);
   };
 
-  const searchEmployees = (query) => {
-    const filteredResults = employees.filter((employee) =>
-      employee.username.toLowerCase().includes(query.toLowerCase())
-    );
-    setSearchResults(filteredResults);
-  };
+  const searchEmployees = useCallback((query) => {
+    const fetchSearchResults = async () => {
+      try {
+        const data = await api.searchEmployees(query);
+        setEmployees(data);
+      } catch (error) {
+        console.error("Failed to search employees", error);
+      }
+    };
+
+    fetchSearchResults();
+  }, []);
 
   return (
     <EmployeeContext.Provider
@@ -78,7 +92,6 @@ const EmployeeProvider = ({ children }) => {
         startUpdateProcess,
         isAddingEmployee,
         setAddingEmployee,
-        searchResults,
         searchEmployees,
       }}
     >

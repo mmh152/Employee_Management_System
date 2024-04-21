@@ -570,6 +570,23 @@ def get_broadcast_messages():
     finally:
         conn.close()
 
+
+@app.route('/search_employees', methods=["GET"])
+@login_required(role='manager')
+def search_employees():
+    query = request.args.get('query')
+    conn = connect_to_db()
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM Employees WHERE username LIKE ?", (f'%{query}%',))
+    employees = cursor.fetchall()
+    employees_list = [{
+        "id": emp[0], "username": emp[1], "email": emp[3],
+        "gender": emp[4], "phone": emp[5], "role": emp[6], "profession": emp[7]
+    } for emp in employees]
+    conn.close()
+    return jsonify(employees_list), 200
+
+
 if __name__ == '__main__':
     app.run(debug=True, port=5000)
 

@@ -346,3 +346,26 @@ export const getBroadcastMessages = async () => {
     throw error;
   }
 };
+
+export const searchEmployees = async (query) => {
+  try {
+    const token = getToken();
+    const response = await fetch(
+      `${API_BASE_URL}/search_employees?query=${encodeURIComponent(query)}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
+    }
+    return await response.json();
+  } catch (error) {
+    console.error("There was a problem with the fetch operation:", error);
+    throw error;
+  }
+};
