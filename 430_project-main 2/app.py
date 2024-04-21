@@ -579,3 +579,4 @@ if __name__ == '__main__':
 # MORE TESTING IS DONE HERE NEED TO ADD LAST FEATURES
 # TRY TO ADD FOR SLIDING for progress
 # need to fix input validations 
+# final touch ups including the search for employee based on name and the sorting of tasks 
