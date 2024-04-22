@@ -47,6 +47,9 @@ const EmployeeNavbar = () => {
           <StyledButton component={Link} to="/employee">
             My Tasks
           </StyledButton>
+          <StyledButton component={Link} to="/attach-files">
+            Attach Files
+          </StyledButton>
           <StyledButton component={Link} to="/settings">
             Settings
           </StyledButton>

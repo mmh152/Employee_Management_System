@@ -21,6 +21,7 @@ import { styled } from "@mui/system";
 import { EmployeeTaskContext } from "../contexts/EmployeeTaskContext";
 import { BroadcastMessageContext } from "../contexts/BroadcastMessageContext";
 import EmployeeNavbar from "../components/common/EmployeeNavbar";
+import { Link } from "react-router-dom";
 
 const StyledContainer = styled(Container)(({ theme }) => ({
   marginTop: theme.spacing(4),
@@ -96,6 +97,7 @@ const EmployeePage = () => {
                   <StyledTableCell>Description</StyledTableCell>
                   <StyledTableCell>Due Date</StyledTableCell>
                   <StyledTableCell>Progress</StyledTableCell>
+                  <StyledTableCell>Attach Files</StyledTableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -114,6 +116,11 @@ const EmployeePage = () => {
                         max={100}
                         valueLabelDisplay="auto"
                       />
+                    </TableCell>
+                    <TableCell>
+                      <Button component={Link} to={`/attach-files`}>
+                        Attach Files
+                      </Button>
                     </TableCell>
                   </TableRow>
                 ))}

@@ -16,6 +16,7 @@ import TaskProvider from "./contexts/TaskContext";
 import EmployeeTaskProvider from "./contexts/EmployeeTaskContext";
 import { isAuthenticated, getUserRole } from "./utils/auth";
 import BroadcastMessageProvider from "./contexts/BroadcastMessageContext";
+import AttachFilesPage from "./pages/AttachFilesPage";
 
 const PrivateRoute = ({ element: Element, roles, ...rest }) => {
   const isAuth = isAuthenticated();
@@ -70,6 +71,16 @@ const App = () => {
                     <PrivateRoute element={EmployeePage} roles={["employee"]} />
                   }
                 />
+                <Route
+                  path="/attach-files"
+                  element={
+                    <PrivateRoute
+                      element={AttachFilesPage}
+                      roles={["employee"]}
+                    />
+                  }
+                />
+
                 {/* Redirect to login page if any other path is hit */}
                 <Route path="*" element={<Navigate to="/" replace />} />
               </Routes>

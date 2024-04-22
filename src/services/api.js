@@ -1,6 +1,6 @@
 import { getToken } from "../utils/auth";
 
-const API_BASE_URL = "http://127.0.0.1:5000";
+export const API_BASE_URL = "http://127.0.0.1:5000";
 
 export const getEmployees = async () => {
   try {
@@ -354,6 +354,82 @@ export const searchEmployees = async (query) => {
       `${API_BASE_URL}/search_employees?query=${encodeURIComponent(query)}`,
       {
         method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
+    }
+    return await response.json();
+  } catch (error) {
+    console.error("There was a problem with the fetch operation:", error);
+    throw error;
+  }
+};
+
+export const attachFile = async (taskId, file) => {
+  try {
+    const token = getToken();
+    const formData = new FormData();
+    formData.append("file", file);
+
+    console.log("Selected file:", file);
+    console.log("Form data:", formData);
+
+    try {
+      const response = await fetch(`${API_BASE_URL}/attach_file/${taskId}`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: formData,
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(`Network response was not ok: ${errorData.error}`);
+      }
+
+      return await response.json();
+    } catch (error) {
+      console.error("Error during fetch:", error);
+      throw error;
+    }
+  } catch (error) {
+    console.error("There was a problem with the attach file operation:", error);
+    throw error;
+  }
+};
+
+export const getAttachedFiles = async (taskId) => {
+  try {
+    const token = getToken();
+    const response = await fetch(`${API_BASE_URL}/attached_files/${taskId}`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
+    }
+    return await response.json();
+  } catch (error) {
+    console.error("There was a problem with the fetch operation:", error);
+    throw error;
+  }
+};
+
+export const deleteAttachedFile = async (taskId, fileId) => {
+  try {
+    const token = getToken();
+    const response = await fetch(
+      `${API_BASE_URL}/delete_file/${taskId}/${fileId}`,
+      {
+        method: "DELETE",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,

@@ -10,6 +10,13 @@ import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from datetime import datetime
+import os
+from werkzeug.utils import secure_filename
+from flask import send_from_directory
+
+
+ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif', 'doc', 'docx'}
+UPLOAD_FOLDER = 'uploads'
 
 SMTP_SERVER = 'smtp.gmail.com'
 SMTP_PORT = 587  
@@ -19,6 +26,13 @@ EMAIL_PASSWORD = 'igtp cwts loro dyks'
 
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}})
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+if not os.path.exists(UPLOAD_FOLDER):
+    os.makedirs(UPLOAD_FOLDER)
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+
 
 def connect_to_db():
     return sqlite3.connect('work_MANAGERs1.db', check_same_thread=False)
@@ -69,6 +83,14 @@ def create_tables():
         sender TEXT NOT NULL,
         content TEXT NOT NULL,
         timestamp TEXT NOT NULL
+    );
+    ''')
+    cursor.execute('''
+    CREATE TABLE IF NOT EXISTS AttachedFiles (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        task_id INTEGER,
+        file_path TEXT,
+        FOREIGN KEY (task_id) REFERENCES Tasks(id)
     );
     ''')
     
@@ -587,6 +609,67 @@ def search_employees():
     } for emp in employees]
     conn.close()
     return jsonify(employees_list), 200
+
+
+
+
+@app.route('/attach_file/<int:task_id>', methods=['POST'])
+@login_required(role='employee')
+def attach_file(task_id):
+    if 'file' not in request.files:
+        return jsonify({'error': 'No file part'}), 400
+    file = request.files['file']
+    if file.filename == '':
+        return jsonify({'error': 'No selected file'}), 400
+    if file and allowed_file(file.filename):
+        filename = secure_filename(file.filename)
+        file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+        try:
+            file.save(file_path)
+            conn = connect_to_db()
+            cursor = conn.cursor()
+            cursor.execute('INSERT INTO AttachedFiles (task_id, file_path) VALUES (?, ?)', (task_id, file_path))
+            conn.commit()
+            conn.close()
+            return jsonify({'message': 'File attached successfully'}), 200
+        except Exception as e:
+            print(f"Error saving file: {str(e)}")
+            return jsonify({'error': 'Error saving file'}), 500
+    else:
+        print(f"Invalid file type: {file.filename} - {file.content_type}")
+        return jsonify({'error': 'Invalid file type'}), 400
+    
+
+@app.route('/attached_files/<int:task_id>', methods=['GET'])
+@login_required(role='employee')
+def get_attached_files(task_id):
+    conn = connect_to_db()
+    cursor = conn.cursor()
+    cursor.execute('SELECT * FROM AttachedFiles WHERE task_id = ?', (task_id,))
+    attached_files = cursor.fetchall()
+    conn.close()
+    files = [{'id': file[0], 'task_id': file[1], 'file_path': file[2]} for file in attached_files]
+    return jsonify(files), 200
+
+
+@app.route('/delete_file/<int:task_id>/<int:file_id>', methods=['DELETE'])
+@login_required(role='employee')
+def delete_attached_file(task_id, file_id):
+    conn = connect_to_db()
+    cursor = conn.cursor()
+    cursor.execute('SELECT file_path FROM AttachedFiles WHERE id = ?', (file_id,))
+    file_path = cursor.fetchone()[0]
+    if os.path.exists(file_path):
+        os.remove(file_path)
+    cursor.execute('DELETE FROM AttachedFiles WHERE id = ?', (file_id,))
+    conn.commit()
+    conn.close()
+    return jsonify({'message': 'File deleted successfully'}), 200
+
+@app.route('/uploads/<filename>')
+def serve_uploaded_file(filename):
+    return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
+
 
 
 if __name__ == '__main__':
