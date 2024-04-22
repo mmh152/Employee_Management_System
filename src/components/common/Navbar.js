@@ -1,16 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { removeToken } from "../../utils/auth";
-import {
-  AppBar,
-  Toolbar,
-  Typography,
-  Button,
-  IconButton,
-  Menu,
-  MenuItem,
-  TextField,
-} from "@mui/material";
+import { AppBar, Toolbar, Typography, Button, TextField } from "@mui/material";
 import { styled } from "@mui/system";
 
 const StyledAppBar = styled(AppBar)(({ theme }) => ({
@@ -50,7 +41,7 @@ const StyledTextField = styled(TextField)(({ theme }) => ({
   },
 }));
 
-const Navbar = ({ onSearch }) => {
+const Navbar = ({ onSearch, showSearch }) => {
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -70,13 +61,15 @@ const Navbar = ({ onSearch }) => {
       <StyledToolbar>
         <StyledTypography variant="h6">Manager's Page</StyledTypography>
         <div>
-          <StyledTextField
-            label="Search Employees"
-            variant="outlined"
-            size="small"
-            value={searchQuery}
-            onChange={handleSearchChange}
-          />
+          {showSearch && (
+            <StyledTextField
+              label="Search Employees"
+              variant="outlined"
+              size="small"
+              value={searchQuery}
+              onChange={handleSearchChange}
+            />
+          )}
           <StyledButton component={Link} to="/employeemanagement">
             Employee Management
           </StyledButton>

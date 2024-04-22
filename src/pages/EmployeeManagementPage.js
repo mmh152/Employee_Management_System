@@ -67,7 +67,7 @@ const EmployeeManagementPage = () => {
 
   return (
     <div>
-      <Navbar onSearch={handleSearch} />
+      <Navbar onSearch={handleSearch} showSearch={true} />
       <StyledContainer>
         <StyledTypography variant="h4">Employee Management</StyledTypography>
         <Divider sx={{ bgcolor: "black", height: "2px", mt: 3, mb: 4 }} />

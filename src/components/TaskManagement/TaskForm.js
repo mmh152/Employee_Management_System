@@ -104,6 +104,9 @@ const TaskForm = () => {
             InputLabelProps={{
               shrink: true,
             }}
+            inputProps={{
+              min: new Date().toISOString().split("T")[0],
+            }}
           />
         </Grid>
         <Grid item xs={12}>
