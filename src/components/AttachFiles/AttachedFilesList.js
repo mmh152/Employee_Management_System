@@ -26,7 +26,7 @@ const AttachedFilesList = ({
 }) => {
   const handleDownload = (file) => {
     const downloadLink = document.createElement("a");
-    downloadLink.href = `${API_BASE_URL}/uploads/${file.file_path}`;
+    downloadLink.href = `${API_BASE_URL}/${file.file_path}`;
     downloadLink.download = file.file_path;
     downloadLink.click();
   };
